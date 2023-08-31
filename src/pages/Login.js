@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import {Link, useNavigate} from "react-router-dom";
 import { UserContext } from "../context/UserContext";
@@ -7,28 +7,29 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export const Login = () =>{
-    const { user, setUser } = useContext(UserContext);
-    const[username,setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [input,setInput] = useState(null);
+    const[isAuth, setIsAuth] = useState(false);
     const navigate = useNavigate();
+
+    const {saveUser} = useContext(UserContext);
+
+    const onChange = (e) => setInput({...input, [e.target.name]: e.target.value});
+
 
     const handleLogin = async (event) => {
         event.preventDefault();
-
-
+        
     try {
-        const response = await axios.post('http://localhost3030/login', {
-                username,
-                password
-            });
-        if (!response.data.isAuth) {
-            setUser(response.data.user);
-            return alert(response.data.message)
-        } else {
-            console.error(response.data.error);
+        const response = await axios.post('https://localhost:3000/login', input);
+        if (!response.data) {
+            saveUser(response.data.user);
+            setIsAuth(true);
+            return navigate('/');
         }
     } catch (error) {
         console.error(error);
+        alert("usuario o contraseña incorrectos");
+    
     }        
     }
 
@@ -36,17 +37,17 @@ export const Login = () =>{
         <>
         <Header/>
         <Container fluid>
-        <Form onSubmit={{handleLogin}}>
+        <Form onSubmit={handleLogin}>
             <Form.Group controlId="formBasicEmail">
                 <FormLabel>Correo</FormLabel>
                 <br></br>
-                <input type='email' required name='username' value={username} onChange={(e) => setUsername(e.target.value)}/> 
+                <input type='email' required name='email' onChange={onChange}/> 
             </Form.Group>
             
             <Form.Group controlId="formBasicPassword">
                 <FormLabel>Contraseña</FormLabel>
                 <br></br>
-                <input className="mb-3" type='password' required name='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <input className="mb-3" type='password' required name='password' onChange={onChange}/>
             </Form.Group>
             <Button type="submit">Iniciar Sesion</Button>
         </Form>

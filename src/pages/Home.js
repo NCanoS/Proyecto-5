@@ -1,41 +1,62 @@
 import { Card, Container } from "react-bootstrap";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useState, React } from "react";
 import axios from "axios";
 
 
-const CardProduct = ({title,description,image}) => {
+//create cards for products
+const ProductCard = ({title, description, price, imageURL}) => {
     return(
-        <Card className="mb-4 shadow-sm">
-            <Card.Img variant="top" src={image} />
+        <Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={imageURL} />
             <Card.Body>
-            <Card.Title>{title}</Card.Title>
-            <Card.Text>{description}</Card.Text>
-            </Card.Body>
-        </Card>
-    )
-}
+                <Card.Title>{title}</Card.Title>
+                <Card.Text>
+                    {description}
+                </Card.Text>
+                <Card.Text>
+                    {price}
+                </Card.Text>
+                </Card.Body>
+                </Card>
+            )
+            }
+
+    
 
 function Home() {
     const {products,setProducts} = useState([]);
     
     useEffect(() => {
-        axios.get('http://localhost3030/products').then((response)=>{
+        axios.get('http://localhost3000/').then((response)=>{
             setProducts(response.data);
         });
     }, []);
 
-    return(
-    <>
-        <Header/>
-            <Container>
-                {products.map((product,index)=>{
-                    <Card key={index} title={product.title} description={product.description} image={product.image} />
-                })}
-            </Container>
-        <Footer/>
-    </>
+    //create cards from getproducts from backend
+    const productCards = products.map((product) => {
+        return(
+            <ProductCard
+                key={product.id}
+                title={product.title}
+                description={product.description}
+                price={product.price}
+                imageURL={product.imageURL}
+            />
+        )
+    }
     )
+
+    return(
+        <>
+            <Header/>
+            <Container>
+                {productCards}
+            </Container>
+            <Footer/>
+        </>
+    )
+
 }
 export default Home;
