@@ -2,13 +2,20 @@ import { Card, Container } from "react-bootstrap";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useEffect, useState, React } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 
 //create cards for products
-const ProductCard = ({title, description, price, imageURL}) => {
+const ProductCard = ({id,title, description, price, imageURL}) => {
+    //add navigation to go to product page
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(`/product/${id}`);
+    }
+
     return(
-        <Card style={{ width: '18rem' }}>
+        <Card onClick={handleClick} style={{ width: '18rem' }}>
             <Card.Img variant="top" src={imageURL} />
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
