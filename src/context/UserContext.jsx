@@ -4,15 +4,22 @@ export const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
     const [user, setUser] = useState(null);
+    const [isAuth, setIsAuth] = useState(false);
     const [tokenContext, setTokenContext] = useState('');
 
-    const saveUser = (user) => {
-        localStorage.setItem("user", JSON.stringify(user));
+    const saveUser = (email,password) => {
+        localStorage.setItem("user", JSON.stringify({email:email,password:password}));
+        setIsAuth(true);
         return setUser(JSON.parse(localStorage.getItem("user")));
+    }
+
+    const getUser = () => {
+        return JSON.parse(localStorage.getItem("user"));
     }
 
     const deleteUser = () => {
         localStorage.removeItem("user");
+        setIsAuth(false);
         return setUser(null);
         
     }
@@ -25,7 +32,10 @@ export const UserProvider = ({children}) => {
             tokenContext,
             setTokenContext,
             saveUser,
-            deleteUser
+            deleteUser,
+            getUser,
+            isAuth,
+            setIsAuth
         }}>
            {
             children

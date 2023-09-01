@@ -6,6 +6,7 @@ import UserProfile from '../pages/UserProfile';
 import { useContext, useEffect, useState } from 'react';
 import {UserContext} from '../context/UserContext';
 import Register from '../pages/Register';
+import Product from '../pages/Product';
 
 function NavigationRoute() {
   const [user, setUser] = useState({});
@@ -25,19 +26,14 @@ function NavigationRoute() {
     return(
         <BrowserRouter>
         <Routes>
-          {
-            !user ?
-            <Route path = '/login' element={<Login
-              setToken={setToken}
-              setUser={setUser}
-              />}></Route>
-              :
-              <Route path='/checkout' element={<Checkout/>}/>
-          }
+          <Route path = '/login' element={<Login/>}></Route>
+          <Route path='/checkout' element={<Checkout/>}/>
           <Route path='/' element={<Home/>}/>
+          <Route path='/home' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/userprofile' element={<UserProfile/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/product/' element={<Product/>}/>
         </Routes>
       </BrowserRouter>
     )

@@ -7,7 +7,7 @@ import { Form } from "react-router-dom";
 
 const UserProfile = () => {
     const [user, setUser] = useState({
-        usertag: "",
+        id: "",
         email: "",
         password: ""
     });
@@ -15,7 +15,8 @@ const UserProfile = () => {
     const [isEditing,setIsEditing] = useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost3030/user").then((response)=>{
+        axios.get("http://localhost3030/users/:id", {
+            params: { id: user.id} }).then((response)=>{
             setUser(response.data);
         });
     }, []);
@@ -37,7 +38,7 @@ const UserProfile = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        axios.post("http://localhost3030/user", user).then((response) => {
+        axios.put("http://localhost3030/settings/:id", user).then((response) => {
           console.log(response);
         });
         setIsEditing(false);

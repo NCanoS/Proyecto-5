@@ -20,11 +20,14 @@ export const Login = () =>{
         event.preventDefault();
         
     try {
-        const response = await axios.post('https://localhost:3000/login', input);
-        if (!response.data) {
-            saveUser(response.data.user);
+        const response = await axios.post('http://localhost:3030/api/login', input);
+        console.log(response);
+        if (response.data) {
+            console.log(input.email);
+            saveUser(input.email,input.password);
+            localStorage.setItem('user', JSON.stringify(response.user));
             setIsAuth(true);
-            return navigate('/');
+            return navigate('/home');
         }
     } catch (error) {
         console.error(error);
@@ -36,8 +39,8 @@ export const Login = () =>{
     return(
         <>
         <Header/>
-        <Container fluid>
-        <Form onSubmit={handleLogin}>
+        <Container fluid className="justify-content-center my-5 mx-5">
+        <Form onSubmit={handleLogin} className="mx-5 my-2">
             <Form.Group controlId="formBasicEmail">
                 <FormLabel>Correo</FormLabel>
                 <br></br>
@@ -47,11 +50,11 @@ export const Login = () =>{
             <Form.Group controlId="formBasicPassword">
                 <FormLabel>Contraseña</FormLabel>
                 <br></br>
-                <input className="mb-3" type='password' required name='password' onChange={onChange}/>
+                <input type='password' required name='password' onChange={onChange}/>
             </Form.Group>
-            <Button type="submit">Iniciar Sesion</Button>
+            <Button className="mx-5 my-2" type="submit">Iniciar Sesion</Button>
         </Form>
-        <Link to="/register" className="link-secondary link-underline-opacity-0 link-underline-opacity-100-hover">¿No tienes una cuenta? Registrate</Link>
+        <Link to="/register" className="link-secondary link-underline-opacity-0 link-underline-opacity-100-hover mx-5">¿No tienes una cuenta? Registrate</Link>
         </Container>
         <Footer />
         </>

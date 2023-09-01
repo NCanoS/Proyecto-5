@@ -1,4 +1,4 @@
-import { Button, Container, Form, FormLabel } from "react-bootstrap";
+import { Button, Col, Container, Form, FormLabel, Row } from "react-bootstrap";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { useState, useContext } from "react";
@@ -20,11 +20,11 @@ export const Register = () => {
     const handleRegister = async (event) =>{
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/register', input);
+            const response = await axios.post('http://localhost:3030/register', input);
             if (!response.data) {
-                setUser(response.data.user);
+                setUser(response.user);
                 //save to local storage
-                localStorage.setItem('user', JSON.stringify(response.data.user));
+                localStorage.setItem('user', JSON.stringify(response.user));
                 setIsAuth(true);
                 alert(response.data.message);
                 return navigate('/');
@@ -39,33 +39,50 @@ export const Register = () => {
         <>
             <Header/>
             <Container fluid>
+            
+                
                 <Form onSubmit={handleRegister}>
-                <Form.Label className="mb-3 justify-content-md-center">Nombre</Form.Label>
-                <input className="mb-3 justify-content-md-center" type='text' required name='firstName' onChange={onChange}/>
-                <Form.Label className="mb-3 justify-content-md-center">Apellido</Form.Label>
-                <input className="mb-3 justify-content-md-center" type='text' required name='lastName' onChange={onChange}/>
-                <Form.Label className="mb-3 justify-content-md-center">Edad</Form.Label>
-                <input className="mb-3 justify-content-md-center" type='number' required name='age' onChange={onChange}/>
-                <Form.Label className="mb-3 justify-content-md-center">Género</Form.Label>
-                <input className="mb-3 justify-content-md-center" type='text' required name='gender' onChange={onChange}/>
-                <Form.Label className="mb-3 justify-content-md-center">País</Form.Label>
-                <input className="mb-3 justify-content-md-center" type='text' required name='country' onChange={onChange}/>
-                <Form.Label className="mb-3 justify-content-md-center">Ciudad</Form.Label>
-                <input className="mb-3 justify-content-md-center" type='text' required name='city' onChange={onChange}/>
+                <Row>
+                <Col className="p-4">
+                <Form.Group className="mb-3">
+                <Form.Label className="mb-3 justify-content-md-center px-1">Nombre</Form.Label>
+                <input className="mb-3 justify-content-md-center" type='text' name='firstName' onChange={onChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                <Form.Label className="mb-3 justify-content-md-center px-1">Apellido</Form.Label>
+                <input className="mb-3 justify-content-md-center" type='text' name='lastName' onChange={onChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                <Form.Label className="mb-3 justify-content-md-center px-1">Edad</Form.Label>
+                <input className="mb-3 justify-content-md-center" type='number' name='age' onChange={onChange}/>
+                </Form.Group>
+                </Col>
+                <Col className="p-4">
+                <Form.Group className="mb-3">
+                <Form.Label className="mb-3 justify-content-md-center px-1">Género</Form.Label>
+                <input className="mb-3 justify-content-md-center" type='text' name='gender' onChange={onChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                <Form.Label className="mb-3 justify-content-md-center px-1">País</Form.Label>
+                <input className="mb-3 justify-content-md-center" type='text' name='country' onChange={onChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                <Form.Label className="mb-3 justify-content-md-center px-1">Ciudad</Form.Label>
+                <input className="mb-3 justify-content-md-center" type='text' name='city' onChange={onChange}/>
+                </Form.Group>
+                </Col>
+                </Row>
                 <Form.Group controlId="formBasicEmail">
-                <FormLabel className="mb-3 justify-content-md-center">Correo</FormLabel>
-                <br></br>
+                <FormLabel className="mb-3 justify-content-md-center px-1">Correo</FormLabel>
                 <input className="mb-3 justify-content-md-center" type='email' required name='email' onChange={onChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword">
-                    <FormLabel className="mb-3 justify-content-md-center">Contraseña</FormLabel>
-                    <br></br>
+                    <FormLabel className="mb-3 justify-content-md-center px-1">Contraseña</FormLabel>
                     <input className="mb-3 justify-content-md-center" type='password' required name='password' onChange={onChange}/>
-                    
                 </Form.Group>
                 <Button type="submit">Registrarse</Button>
                 </Form>
-                <Link to="/login" className="link-secondary link-underline-opacity-0 link-underline-opacity-100-hover">¿Ya tienes una cuenta? Registrate</Link>
+                <Link to="/login" className="link-secondary link-underline-opacity-0 link-underline-opacity-100-hover">¿Ya tienes una cuenta? Inicia Sesión</Link>
                 </Container>
                 <Footer/>
                 
